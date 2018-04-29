@@ -16,7 +16,7 @@ function verifyUser() {
 // Configuration of Routes in Fulcrum
 
 var config = {
-  geojson: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/10/query?where=objectid+IS+NOT+NULL&f=geojson",
+  geojson: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/10/query?where=objectid+IS+NOT+NULL&f=json",
   title: "SLC OneFiber Engineering",
   layerName: "Routes",
   hoverProperty: "status_title_github",
@@ -166,7 +166,7 @@ var featureLayer = L.geoJson(null, {
 
 // Fetch the Routes GeoJSON file
 
-L.esri.get('https://www.arcgis.com/sharing/content/items/62914b2820c24d4e95710ebae77937cb/data', {}, function (error, response) {
+L.esri.get('https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/10/query?where=objectid+IS+NOT+NULL&f=json', {}, function (error, response) {
   var features = response.operationalLayers[0].featureCollection.layers[0].featureSet.features;
   var idField = response.operationalLayers[0].featureCollection.layers[0].layerDefinition.objectIdField;
 
