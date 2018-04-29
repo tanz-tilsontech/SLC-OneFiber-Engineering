@@ -166,13 +166,28 @@ var featureLayer = L.geoJson(null, {
 
 // Fetch the Routes GeoJSON file
 
-$.getJSON(config.geojson, function (data) {
-  geojson = data;
-  features = $.map(geojson.features, function(feature) {
-    return feature.properties;
-  });
-  featureLayer.addData(data);
-  $("#loading-mask").hide();
+L.esri.get('https://www.arcgis.com/sharing/content/items/62914b2820c24d4e95710ebae77937cb/data', {}, function (error, response) {
+  var features = response.operationalLayers[0].featureCollection.layers[0].featureSet.features;
+  var idField = response.operationalLayers[0].featureCollection.layers[0].layerDefinition.objectIdField;
+
+  // empty geojson feature collection
+  var featureCollection = {
+    type: 'FeatureCollection',
+    features: []
+  };
+
+  for (var i = features.length - 1; i >= 0; i--) {
+    // convert ArcGIS Feature to GeoJSON Feature
+    var feature = L.esri.Util.arcgisToGeoJSON(features[i], idField);
+
+    // unproject the web mercator coordinates to lat/lng
+    var latlng = L.point(feature.attributes.centroid_x,feature.attributes.centroid_y);
+
+    featureCollection.features.push(feature);
+  }
+
+  var geojson = L.geoJSON(featureCollection).addTo(map);
+  map.fitBounds(geojson.getBounds());
 });
 
 
