@@ -172,7 +172,6 @@ $.getJSON(config.geojson, function (data) {
     return feature.properties;
   });
   featureLayer.addData(data);
-  buildConfig();
   $("#loading-mask").hide();
 });
 
@@ -329,7 +328,6 @@ $("#refresh-btn").click(function() {
       return feature.properties;
     });
     featureLayer.addData(data);
-    buildConfig();
     $("#loading-mask").hide();
   });
   syncTable();
