@@ -96,8 +96,8 @@ var SLCLLDRoute = L.tileLayer('http://ttm-tileify-proxy1.herokuapp.com/tiles/{z}
 
 
 var highlightLayer = L.geoJson(null, {
-  pointToLayer: function (feature, properties) {
-    return L.circleMarker([centroid_x,centroid_y], {
+  pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
       radius: 7,
       color: "#FFF",
       weight: 3,
@@ -121,8 +121,8 @@ var highlightLayer = L.geoJson(null, {
 
 
 var featureLayer = L.geoJson(null, {
-  pointToLayer: function (feature, properties) {
-    return L.marker([centroid_x,centroid_y], {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
       title: feature.properties["fqn_id"],
       riseOnHover: true,
       icon: L.icon({
@@ -170,8 +170,9 @@ $.getJSON(config.geojson, function (data) {
   geojson = data;
   features = $.map(geojson.features, function(feature) {
     return feature.properties;
+    var latlng = L.point([centroid_x,centroid_y])
   });
-  featureLayer.addData(data);
+  featureLayer.addData(features);
   $("#loading-mask").hide();
 });
 
