@@ -170,9 +170,9 @@ $.getJSON(config.geojson, function (data) {
   geojson = data;
   features = $.map(geojson.features, function(feature) {
     return feature.properties;
+    var latlng = L.latlng(centroid_x,centroid_y);
   });
-  var latlng = L.latlng(features.centroid_x,features.centroid_y)
-  featureLayer.addData(data);
+  featureLayer.addData(features);
   $("#loading-mask").hide();
 });
 
