@@ -166,7 +166,7 @@ var featureLayer = L.geoJson(null, {
 
 // Fetch the Routes GeoJSON file
 
-L.esri.get('https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/10/query?where=objectid+IS+NOT+NULL&f=json', {}, function (error, response) {
+L.esri.get('https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/10/query?where=objectid+IS+NOT+NULL', {}, function (error, response) {
   var features = response.operationalLayers[0].featureCollection.layers[0].featureSet.features;
   var idField = response.operationalLayers[0].featureCollection.layers[0].layerDefinition.objectIdField;
 
