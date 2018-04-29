@@ -16,10 +16,10 @@ function verifyUser() {
 // Configuration of Routes in Fulcrum
 
 var config = {
-  geojson: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/10/query?where=objectid+IS+NOT+NULL&f=json",
+  geojson: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/10/query?where=objectid+IS+NOT+NULL&f=geojson",
   title: "SLC OneFiber Engineering",
   layerName: "Routes",
-  hoverProperty: "status_title_github",
+  hoverProperty: "fqn_id",
   sortProperty: "fqn_id",
   sortOrder: "ascend",
 };
@@ -166,28 +166,14 @@ var featureLayer = L.geoJson(null, {
 
 // Fetch the Routes GeoJSON file
 
-L.esri.get('https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/10/query?where=objectid+IS+NOT+NULL', {}, function (error, response) {
-  var features = response.features;
-  var idField = response.features.attributes.objectid;
-
-  // empty geojson feature collection
-  var featureCollection = {
-    type: 'FeatureCollection',
-    features: []
-  };
-
-  for (var i = features.length - 1; i >= 0; i--) {
-    // convert ArcGIS Feature to GeoJSON Feature
-    var feature = L.esri.Util.arcgisToGeoJSON(features[i], idField);
-
-    // unproject the web mercator coordinates to lat/lng
-    var latlng = L.point(feature.attributes.centroid_x,feature.attributes.centroid_y);
-
-    featureCollection.features.push(feature);
-  }
-
-  var geojson = L.geoJSON(featureCollection).addTo(map);
-  map.fitBounds(geojson.getBounds());
+$.getJSON(config.geojson, function (data) {
+  geojson = data;
+  features = $.map(geojson.features, function(feature) {
+    return feature.properties;
+  });
+  var latlng = L.latlng(feature.properties.centroid_x,feature.properties.centroid_y)
+  featureLayer.addData(data);
+  $("#loading-mask").hide();
 });
 
 
