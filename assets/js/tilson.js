@@ -257,7 +257,7 @@ $.getJSON(config.geojson, function (data) {
   features = $.map(geojson.features, function(feature) {
     return feature.properties;
   });
-  featureLayer.addData(data);
+  featureLayer.addData(features);
   buildConfig();
   $("#loading-mask").hide();
 });
