@@ -19,7 +19,7 @@ var config = {
   geojson: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109/query?where=objectid+IS+NOT+NULL&f=geojson",
   title: "SLC OneFiber Engineering",
   layerName: "Routes",
-  hoverProperty: "status_title_github",
+  hoverProperty: "fqn_id",
   sortProperty: "fqn_id",
   sortOrder: "ascend",
 };
@@ -257,7 +257,7 @@ $.getJSON(config.geojson, function (data) {
   features = $.map(geojson.features, function(feature) {
     return feature.properties;
   });
-  featureLayer.addData(features);
+  featureLayer.addData(data);
   buildConfig();
   $("#loading-mask").hide();
 });
