@@ -255,7 +255,6 @@ $.getJSON(config.geojson, function (data) {
     return feature.properties;
   });
   featureLayer.addData(data);
-  buildConfig();
   $("#loading-mask").hide();
 });
 
@@ -323,6 +322,9 @@ function urlFormatter (value, row, index) {
     return "<a href='"+value+"' target='_blank'>"+value+"</a>";
   }
 }
+
+
+buildConfig();
 
 
 function buildFilters() {
