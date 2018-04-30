@@ -32,7 +32,6 @@ var properties = [{
     sortable: true
   },
   filter: {
-    type: "string",
     input: "checkbox",
     vertical: true,
     multiple: true,
@@ -48,7 +47,6 @@ var properties = [{
     sortable: true
   },
   filter: {
-    type: "string",
     input: "checkbox",
     vertical: true,
     multiple: true,
@@ -64,7 +62,6 @@ var properties = [{
     sortable: true
   },
   filter: {
-    type: "string",
     input: "checkbox",
     vertical: true,
     multiple: true,
@@ -206,8 +203,7 @@ var highlightLayer = L.geoJson(null, {
 });
 
 
-var featureLayer = L.esri.featureLayer({
-  url: 'https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109/',
+var featureLayer = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
       title: feature.properties["fqn_id"],
@@ -250,6 +246,18 @@ var featureLayer = L.esri.featureLayer({
   }
 });
 
+
+// Fetch the Routes GeoJSON file
+
+$.getJSON(config.geojson, function (data) {
+  geojson = data;
+  features = $.map(geojson.features, function(feature) {
+    return feature.properties;
+  });
+  featureLayer.addData(data);
+  buildConfig();
+  $("#loading-mask").hide();
+});
 
 
 var map = L.map("map", {
