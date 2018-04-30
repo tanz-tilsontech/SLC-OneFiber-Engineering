@@ -206,7 +206,7 @@ var highlightLayer = L.geoJson(null, {
 });
 
 
-var featureLayer = L.esri.featureLayer('https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109/query?where=centroid_x+IS+NOT+NULL+AND+centroid_y+IS+NOT+NULL&f=geojson', {
+var featureLayer = L.esri.featureLayer('https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109', {
   pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
       title: feature.properties["fqn_id"],
