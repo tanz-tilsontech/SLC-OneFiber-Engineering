@@ -16,7 +16,7 @@ function verifyUser() {
 // Configuration of Routes in Fulcrum
 
 var config = {
-  geojson: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109/query?where=objectid+IS+NOT+NULL&f=geojson",
+  geojson: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109/query?where=centroid_x+IS+NOT+NULL+AND+centroid_y+IS+NOT+NULL&f=geojson",
   title: "SLC OneFiber Engineering",
   layerName: "Routes",
   hoverProperty: "fqn_id",
