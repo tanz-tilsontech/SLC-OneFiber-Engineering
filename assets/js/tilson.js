@@ -204,9 +204,9 @@ var highlightLayer = L.geoJson(null, {
 
 
 var featureLayer = L.geoJson(null, {
-  pointToLayer: function (featureCollection, latlng) {
+  pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
-      title: featureCollection.features.properties["fqn_id"],
+      title: feature.properties["fqn_id"],
       riseOnHover: true,
       icon: L.icon({
         iconUrl: "assets/pictures/markers/cb0d0c.png",
@@ -215,8 +215,8 @@ var featureLayer = L.geoJson(null, {
       })
     });
   },
-  onEachFeature: function (featureCollection, layer) {
-    if (featureCollection.features.properties) {
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
       layer.on({
         click: function (e) {
           identifyFeature(L.stamp(layer));
@@ -225,7 +225,7 @@ var featureLayer = L.geoJson(null, {
         },
         mouseover: function (e) {
           if (config.hoverProperty) {
-            $(".info-control").html(featureCollection.features.properties[config.hoverProperty]);
+            $(".info-control").html(feature.properties[config.hoverProperty]);
             $(".info-control").show();
           }
         },
@@ -233,10 +233,10 @@ var featureLayer = L.geoJson(null, {
           $(".info-control").hide();
         }
       });
-      if (featureCollection.features.properties["marker-color"]) {
+      if (feature.properties["marker-color"]) {
         layer.setIcon(
           L.icon({
-            iconUrl: "assets/pictures/markers/" + featureCollection.features.properties["marker-color"].replace("#",'').toLowerCase() + ".png",
+            iconUrl: "assets/pictures/markers/" + feature.properties["marker-color"].replace("#",'').toLowerCase() + ".png",
             iconSize: [30, 40],
             iconAnchor: [15, 32]
           })
@@ -252,7 +252,7 @@ var featureLayer = L.geoJson(null, {
 $.getJSON(config.geojson, function (data) {
   geojson = data;
   features = $.map(geojson.features, function(feature) {
-    return featureCollection.features.properties;
+    return feature.properties;
   });
   featureLayer.addData(data);
   buildConfig();
@@ -261,8 +261,16 @@ $.getJSON(config.geojson, function (data) {
 
 
 var map = L.map("map", {
-  layers: [mapboxOSM, SLCLLDRoute, featureLayer, highlightLayer]
+  layers: [mapboxOSM, SLCLLDRoute, featureLayer, engineering, highlightLayer]
 }).fitWorld();
+
+var engineering = L.esri.featureLayer({
+  url: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109",
+  style: function () {
+    return { color: "#70ca49", weight: 2 };
+  }
+}).addTo(map);
+
 
 
 // ESRI geocoder
