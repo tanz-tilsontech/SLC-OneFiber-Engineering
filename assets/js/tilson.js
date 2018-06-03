@@ -265,11 +265,8 @@ var map = L.map("map", {
 }).fitWorld();
 
 var engineering = L.esri.featureLayer({
-  url: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109",
-  style: function () {
-    return { color: "#70ca49", weight: 2 };
-  }
-}).addTo(map);
+  url: "https://tilsonwebdraco.3-gislive.com/arcgis/rest/services/SLClld/Tilsonslc_lld/MapServer/109"
+})
 
 
 
